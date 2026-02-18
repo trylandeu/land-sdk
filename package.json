@@ -1,0 +1,47 @@
+{
+  "name": "@trylandeu/land-sdk",
+  "version": "0.2.0",
+  "description": "Type-safe SDK for the Land backend API.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trylandeu/land-sdk.git"
+  },
+  "homepage": "https://github.com/trylandeu/land-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/trylandeu/land-sdk/issues"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "test:unit": "node --test tests/unit/**/*.test.mjs",
+    "test:integration": "node --test tests/integration/**/*.test.mjs",
+    "test": "npm run build && npm run test:unit && npm run test:integration",
+    "prepack": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "RELEASING.md",
+    "VERSIONING.md"
+  ]
+}
