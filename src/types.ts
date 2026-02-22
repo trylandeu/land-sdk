@@ -1,6 +1,39 @@
 export type LandChain = 'solana' | 'evm' | string;
 export type LandProtocol = 'kamino' | 'aave-v3' | string;
 
+export type SortOrder = 'asc' | 'desc';
+
+export type ObligationsSortField =
+  | 'total_collateral_value_usd'
+  | 'total_borrow_value_usd'
+  | 'as_of';
+
+export type PositionsSortField =
+  | 'current_value_usd'
+  | 'current_amount'
+  | 'as_of';
+
+export type MarketsSortField =
+  | 'symbol'
+  | 'price_usd'
+  | 'current_supply_rate'
+  | 'current_borrow_rate_variable'
+  | 'available_amount'
+  | 'borrowed_amount'
+  | 'as_of';
+
+export type TokensSortField = 'symbol' | 'as_of';
+
+export type PricesSortField = 'price_usd' | 'as_of';
+
+export type HistoryEventsSortField = 'occurred_at';
+
+export type HistoryPricesSortField = 'price_usd' | 'as_of';
+
+export type HistoryRatesSortField = 'as_of';
+
+export type HistoryWindowSortField = 'as_of';
+
 export type JsonPrimitive = string | number | boolean | null;
 export type JsonValue = JsonPrimitive | JsonObject | JsonValue[];
 export interface JsonObject {
@@ -324,6 +357,8 @@ export interface WalletPathParams {
 
 export interface WalletObligationsQuery {
   pool_ref?: string;
+  sort?: ObligationsSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -332,6 +367,8 @@ export interface WalletPositionsQuery {
   pool_ref?: string;
   asset?: string;
   type?: 'supply' | 'borrow';
+  sort?: PositionsSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -345,6 +382,8 @@ export interface MarketsQuery {
   protocol?: LandProtocol;
   asset?: string;
   pool_ref?: string;
+  sort?: MarketsSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -353,6 +392,8 @@ export interface TokensQuery {
   chain?: LandChain;
   symbol?: string;
   address_or_mint?: string;
+  sort?: TokensSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -361,6 +402,8 @@ export interface PricesQuery {
   chain?: LandChain;
   asset_token_id?: string;
   price_feed_id?: string;
+  sort?: PricesSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -376,6 +419,8 @@ export interface HistoryEventsQuery {
   asset_token_id?: string;
   since?: string;
   until?: string;
+  sort?: HistoryEventsSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -387,6 +432,8 @@ export interface HistoryPricesQuery {
   price_feed_id?: string;
   since?: string;
   until?: string;
+  sort?: HistoryPricesSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -403,6 +450,8 @@ export interface HistoryRatesQuery {
   frequency?: HistoryRatesFrequency;
   since?: string;
   until?: string;
+  sort?: HistoryRatesSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
@@ -410,6 +459,8 @@ export interface HistoryRatesQuery {
 export interface HistoryWindowQuery {
   since?: string;
   until?: string;
+  sort?: HistoryWindowSortField;
+  order?: SortOrder;
   limit?: number;
   offset?: number;
 }
