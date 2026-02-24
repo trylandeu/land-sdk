@@ -20,6 +20,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./kamino": {
+      "types": "./dist/kamino/index.d.ts",
+      "default": "./dist/kamino/index.js"
     }
   },
   "scripts": {
@@ -33,6 +37,11 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "@noble/curves": "^2.0.1",
+    "@noble/hashes": "^2.0.1",
+    "bs58": "^6.0.0"
   },
   "devDependencies": {
     "typescript": "^5.9.2"

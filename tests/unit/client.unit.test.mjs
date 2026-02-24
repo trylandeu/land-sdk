@@ -132,3 +132,27 @@ test('sends webhook create/update payloads with JSON body', async () => {
   assert.equal(calls[0]?.init?.headers['Content-Type'], 'application/json');
   assert.equal(calls[1]?.init?.headers['Content-Type'], 'application/json');
 });
+
+test('supports api key header and dynamic headers for direct or proxied access', async () => {
+  const calls = [];
+
+  const client = createLandBackendClient({
+    baseUrl: 'https://proxy.example.com/land',
+    apiKey: 'secret-key',
+    apiKeyHeader: 'x-land-api-key',
+    defaultHeaders: { 'x-client': 'land-sdk-test' },
+    getHeaders: async () => ({ authorization: 'Bearer token-123' }),
+    fetchImpl: async (url, init) => {
+      calls.push({ url: String(url), headers: init?.headers });
+      return jsonResponse(200, { status: 'ok', timestamp: '2026-01-01T00:00:00Z', detail: null });
+    },
+  });
+
+  await client.healthz();
+
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0]?.url, 'https://proxy.example.com/land/healthz');
+  assert.equal(calls[0]?.headers['x-land-api-key'], 'secret-key');
+  assert.equal(calls[0]?.headers['x-client'], 'land-sdk-test');
+  assert.equal(calls[0]?.headers.authorization, 'Bearer token-123');
+});

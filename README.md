@@ -15,6 +15,26 @@ const client = createLandBackendClient({
 const markets = await client.listMarkets({ chain: 'solana', protocol: 'kamino' });
 ```
 
+### Proxy-first frontend usage (recommended)
+
+```ts
+const client = createLandBackendClient({
+  // Point this to your own backend/proxy endpoint
+  // so API keys stay server-side.
+  baseUrl: '/api/land',
+});
+```
+
+### Direct backend usage with API key (server-side)
+
+```ts
+const client = createLandBackendClient({
+  baseUrl: 'https://land-api.example.com',
+  apiKey: process.env.LAND_API_KEY,
+  apiKeyHeader: 'x-api-key', // default
+});
+```
+
 ## Included endpoint groups
 
 - Health/auth: `/healthz`, `/readyz`, `/auth/context`

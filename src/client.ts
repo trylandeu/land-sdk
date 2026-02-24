@@ -39,6 +39,9 @@ export interface CreateLandBackendClientOptions {
   baseUrl: string;
   timeout?: number;
   defaultHeaders?: Record<string, string>;
+  getHeaders?: () => Record<string, string> | Promise<Record<string, string>>;
+  apiKey?: string;
+  apiKeyHeader?: string;
   fetchImpl?: typeof fetch;
 }
 
@@ -161,6 +164,9 @@ export function createLandBackendClient(
     baseUrl,
     timeout = 30000,
     defaultHeaders = {},
+    getHeaders,
+    apiKey,
+    apiKeyHeader = 'x-api-key',
     fetchImpl = fetch,
   } = options;
 
@@ -173,12 +179,16 @@ export function createLandBackendClient(
 
     let response: Response;
     try {
+      const dynamicHeaders = getHeaders ? await getHeaders() : {};
+      const apiKeyHeaders = apiKey ? { [apiKeyHeader]: apiKey } : {};
       response = await fetchImpl(joinPath(baseUrl, path), {
         ...init,
         signal: controller.signal,
         headers: {
           Accept: 'application/json',
           ...defaultHeaders,
+          ...apiKeyHeaders,
+          ...dynamicHeaders,
           ...(init?.headers ?? {}),
         },
       });
